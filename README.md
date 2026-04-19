@@ -1,13 +1,7 @@
 # 🧠 LocalAI Studio Pro
 
 > **Private AI Workspace — Runs Fully in Browser (Offline-First)**
-
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/abdulraheemnohri/LocalAI-Studio-Pro) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Stars](https://img.shields.io/github/stars/abdulraheemnohri/LocalAI-Studio-Pro?style=social)](https://github.com/abdulraheemnohri/LocalAI-Studio-Pro/stargazers)
-
-[![Deploy to GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Deploy-blue?style=for-the-badge&logo=github)](https://abdulraheemnohri.github.io/LocalAI-Studio-Pro/)
-
----
-
+> 
 ## 🎯 Overview
 
 LocalAI Studio Pro is a self-hosted, browser-based AI platform that runs **100% offline** in your web browser. It's your private AI workspace with chat, file intelligence, code assistance, and knowledge training capabilities—all without sending any data to external servers.
@@ -43,11 +37,6 @@ python -m http.server 8000
 # Then open: http://localhost:8000
 ```
 
-### Option 2: Use GitHub Pages
-
-👉 **[Live Demo](https://abdulraheemnohri.github.io/LocalAI-Studio-Pro/)** - Just open and start using!
-
----
 
 ## 🧩 AI Modes Explained
 
@@ -165,9 +154,3 @@ Build your custom knowledge base.
 ```
 
 ---
-
-**🎉 LocalAI Studio Pro is now fully documented! Ready for GitHub Pages deployment!**
-
----
-
-🔗 [**Go to GitHub Repository**](https://github.com/abdulraheemnohri/LocalAI-Studio-Pro) | 🌐 [**Try the Live Demo**](https://abdulraheemnohri.github.io/LocalAI-Studio-Pro/)
