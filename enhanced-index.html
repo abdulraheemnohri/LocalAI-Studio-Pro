@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>LocalAI Studio Pro - Enhanced</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+  
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --glass-bg: rgba(255,255,255,0.05);
+      --glass-border: rgba(255,255,255,0.1);
+      --accent: #6366f1;
+      --accent-hover: #818cf8;
+      --text-primary: #e2e8f0;
+      --text-secondary: #94a3b8;
+      --success: #10b981;
+      --error: #ef4444;
+      --radius: 12px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+    
+    body {
+      height: 100vh;
+      overflow: hidden;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Android App Header */
+    .android-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--glass-border);
+      z-index: 1000;
+      padding: 16px 24px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .android-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .android-brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+    
+    .android-brand h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+    }
+    
+    .android-nav-bar {
+      position: fixed;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(20,20,30,0.98);
+      border-radius: 36px;
+      border: 2px solid var(--accent-glow);
+      padding: 8px 16px;
+      backdrop-filter: blur(16px);
+      z-index: 2000;
+      display: flex;
+      gap: 12px;
+      box-shadow: 0 12px 40px rgba(99,102,241,0.3);
+    }
+    
+    .android-nav-item {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      background: var(--glass-bg);
+      border: 1px solid transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: var(--text-secondary);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .android-nav-item.active {
+      background: var(--accent-glow);
+      color: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+    
+    .android-nav-item:hover {
+      background: var(--glass-hover);
+      transform: translateY(-2px);
+    }
+    
+    .android-nav-item svg {
+      width: 20px;
+      height: 20px;
+      margin-bottom: 2px;
+    }
+    
+    /* Mobile Input Area */
+    .mobile-input-area {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90vw;
+      max-width: 600px;
+      background: rgba(25,25,40,0.98);
+      border-radius: 24px;
+      border: 2px solid var(--accent);
+      backdrop-filter: blur(16px);
+      padding: 16px;
+      box-shadow: 0 16px 40px rgba(99,102,241,0.3);
+      z-index: 1000;
+    }
+    
+    .mobile-text-input {
+      width: 100%;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 16px;
+      font-family: inherit;
+      resize: none;
+      min-height: 50px;
+      max-height: 150px;
+      line-height: 1.5;
+      padding: 8px 0;
+      outline: none;
+      touch-action: manipulation;
+    }
+    
+    .mobile-text-input::placeholder {
+      color: var(--text-muted);
+      opacity: 0.8;
+    }
+    
+    .mobile-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      padding-top: 12px;
+    }
+    
+    .mobile-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--accent-glow);
+      border: 1px solid var(--accent);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(99,102,241,0.4);
+      touch-action: manipulation;
+    }
+    
+    .mobile-send-btn {
+      background: var(--accent);
+    }
+    
+    .mobile-send-btn:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px) scale(1.05);
+    }
+    
+    .mobile-input-btn {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--text-secondary);
+    }
+    
+    /* Chat Container */
+    .mobile-chat-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 8px;
+      scroll-behavior: smooth;
+      margin-bottom: 80px;
+      margin-top: 80px;
+    }
+    
+    .mobile-message {
+      margin: 12px 8px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      animation: androidBounce 0.5s ease;
+    }
+    
+    @keyframes androidBounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-4px) scale(1.02); }
+    }
+    
+    .mobile-message.user {
+      text-align: right;
+    }
+    
+    .mobile-message-content {
+      display: inline-block;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 15px;
+      line-height: 1.6;
+      max-width: 85vw;
+      word-wrap: break-word;
+    }
+    
+    .mobile-message.user .mobile-message-content {
+      background: var(--accent);
+      color: white;
+    }
+    
+    .mobile-message.assistant .mobile-message-content {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--text-primary);
+    }
+    
+    .file-preview {
+      display: flex;
+      gap: 10px;
+      padding: 8px 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .file-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    
+    .file-chip .remove {
+      cursor: pointer;
+      opacity: 0.6;
+      transition: all 0.2s ease;
+    }
+    
+    .file-chip .remove:hover {
+      opacity: 1;
+      color: var(--error);
+    }
+    
+    /* Welcome screen */
+    .web-welcome {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      padding: 60px 20px;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .web-welcome-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, var(--accent), #a855f7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      margin-bottom: 32px;
+      box-shadow: 0 8px 24px var(--accent-glow);
+    }
+    
+    .web-welcome h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+    
+    .web-welcome p {
+      color: var(--text-secondary);
+      font-size: 16px;
+      max-width: 500px;
+      line-height: 1.7;
+    }
+    
+    /* Touch feedback */
+    ::selection {
+      background: var(--accent-glow);
+      color: white;
+    }
+    
+    body::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    
+    body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    body::-webkit-scrollbar-thumb {
+      background: var(--glass-border);
+      border-radius: 3px;
+    }
+    
+    body::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-glow);
+    }
+    
+    @media (max-width: 768px) {
+      .android-header, .android-nav-bar, .mobile-input-area, .mobile-chat-container {
+        display: block;
+      }
+    }
+    
+    @media (min-width: 769px) {
+      .android-header, .android-nav-bar { display: none; }
+    }
+    
+    .error-message {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid var(--error);
+      padding: 16px;
+      border-radius: 12px;
+      margin: 16px;
+      color: var(--error);
+    }
+    
+    .retry-btn {
+      background: var(--error);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-top: 12px;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .error-details {
+      margin-top: 12px;
+      padding: 12px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    
+    .error-details pre {
+      display: none;
+      margin-top: 8px;
+      background: rgba(0,0,0,0.3);
+      padding: 10px;
+      border-radius: 6px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body class="android-native-feel">
+
+<div class="android-header">
+  <div class="android-brand">
+    <div class="android-brand-icon">🧠</div>
+    <h1>LocalAI Studio Pro</h1>
+  </div>
+</div>
+
+<div class="android-nav-bar" id="androidNavBar">
+  <div class="android-nav-item active touch-element" data-mode="chat" onclick="switchMobileMode('chat')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <span>Chat</span>
+  </div>
+  <div class="android-nav-item touch-element" data-mode="code" onclick="switchMobileMode('code')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+    <span>Code</span>
+  </div>
+  <div class="android-nav-item touch-element" data-mode="pdf" onclick="switchMobileMode('pdf')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    <span>PDF</span>
+  </div>
+  <div class="android-nav-item touch-element" data-mode="image" onclick="switchMobileMode('image')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+    <span>Image</span>
+  </div>
+</div>
+
+<div class="mobile-chat-container" id="chatContainer">
+  <div class="web-welcome" id="welcomeScreen">
+    <div class="web-welcome-icon">🧠</div>
+    <h2>LocalAI Studio Pro</h2>
+    <p>Your private AI assistant. Works completely offline in your browser.</p>
+    <p style="font-size: 12px; color: var(--text-muted); margin-top: 16px;">Select mode from navigation below</p>
+  </div>
+  
+  <div id="messages"></div>
+  <div id="errorContainer"></div>
+</div>
+
+<div class="mobile-input-area touch-element" id="inputArea">
+  <div class="file-preview" id="filePreview"></div>
+  
+  <div style="background: rgba(25,25,40,0.98); border: 2px solid var(--accent); border-radius: 24px; padding: 12px;">
+    <input type="file" id="fileInput" multiple hidden accept=".txt,.pdf,.js,.py,.html,.css,.json,.md">
+    
+    <button class="mobile-btn mobile-input-btn" style="background: var(--glass-bg); border: 1px solid var(--glass-border); color: var(--text-secondary);" onclick="document.getElementById('fileInput').click()" title="Upload file">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+    </button>
+    
+    <textarea 
+      id="userInput" 
+      class="mobile-text-input" 
+      rows="1" 
+      placeholder="Type a message..." 
+      onkeydown="handleMobileKeyDown(event)" 
+      oninput="autoResizeMobile(this)"
+    ></textarea>
+    
+    <div class="mobile-actions">
+      <button class="mobile-btn" id="voiceBtn" onclick="toggleVoice()" title="Voice input">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      </button>
+      
+      <button class="mobile-btn mobile-send-btn" id="sendBtn" onclick="sendMessage()" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+const APP = {
+  currentMode: 'chat',
+  messages: [],
+  isGenerating: false,
+  isRecording: false
+};
+
+const MODES = {
+  chat: { title: 'Chat', subtitle: 'General conversation' },
+  code: { title: 'Code AI', subtitle: 'Generate and explain code' },
+  pdf: { title: 'PDF Intelligence', subtitle: 'Ask questions about PDF documents' },
+  image: { title: 'Image AI', subtitle: 'Analyze and describe images' }
+};
+
+function loadTransformers() {
+  const script = document.createElement('script');
+  script.src = 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0';
+  script.onload = initApp;
+  script.onerror = handleTransformersError;
+  document.head.appendChild(script);
+}
+
+function initApp() {
+  try {
+    APP.textGenerator = window.pipeline('text2text-generation', 'Xenova/flan-t5-small');
+    console.log('Small model loaded');
+  } catch (error) {
+    handleModelError('Error loading AI model', error);
+  }
+}
+
+function handleTransformersError(error) {
+  const container = document.getElementById('errorContainer');
+  container.innerHTML = `
+    <div class="error-message">
+      <strong>Transformers.js Error:</strong> The AI library failed to load
+      <div class="error-details" onclick="toggleDetails(this)">
+        <summary>Show Technical Details</summary>
+        <pre style="display: none;">${error.message}</pre>
+      </div>
+      <button class="retry-btn" onclick="location.reload()">Reload Page</button>
+    </div>
+  `;
+  console.error('Transformers error:', error);
+}
+
+function handleModelError(message, error) {
+  const container = document.getElementById('errorContainer');
+  container.innerHTML = `
+    <div class="error-message">
+      <strong>AI Error:</strong> ${message}
+      <div class="error-details" onclick="toggleDetails(this)">
+        <summary>Show Error Details</summary>
+        <pre style="display: none;">${error.message || JSON.stringify(error)}</pre>
+      </div>
+      <button class="retry-btn" onclick="retryModel()">Retry Loading</button>
+    </div>
+  `;
+}
+
+function retryModel() {
+  document.getElementById('errorContainer').innerHTML = '';
+  loadTransformers();
+}
+
+function toggleDetails(element) {
+  const pre = element.querySelector('pre');
+  const isOpen = pre.style.display === 'block';
+  pre.style.display = isOpen ? 'none' : 'block';
+}
+
+function addMessage(role, content) {
+  const container = document.getElementById('messages');
+  const welcome = document.getElementById('welcomeScreen');
+  
+  if (welcome) welcome.style.display = 'none';
+  
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `mobile-message ${role}`;
+  messageDiv.style.animationDelay = `${APP.messages.length * 0.05}s`;
+  
+  const avatar = role === 'user' ? '👤' : '🧠';
+  
+  messageDiv.innerHTML = `
+    <div class="mobile-message-content ${role}">
+      <strong style="color: ${role === 'user' ? 'white' : 'var(--accent)'};">${avatar}</strong> ${content}
+    </div>
+  `;
+  
+  container.appendChild(messageDiv);
+  APP.messages.push({ role, content });
+  
+  setTimeout(() => {
+    container.scrollTop = container.scrollHeight;
+  }, 100);
+  
+  return messageDiv;
+}
+
+function autoResizeMobile(element) {
+  element.style.height = 'auto';
+  element.style.height = Math.min(element.scrollHeight, 150) + 'px';
+}
+
+function handleMobileKeyDown(event) {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault();
+    sendMessage();
+  }
+}
+
+document.getElementById('fileInput').addEventListener('change', (event) => {
+  const files = Array.from(event.target.files);
+  files.forEach(file => {
+    const preview = document.createElement('div');
+    preview.className = 'file-chip';
+    preview.innerHTML = `📎 ${file.name} <span class="remove" onclick="this.parentElement.remove()">✕</span>`;
+    document.getElementById('filePreview').appendChild(preview);
+  });
+  event.target.value = '';
+});
+
+let recognition = null;
+
+function toggleVoice() {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    addMessage('assistant', 'Voice input not supported. Try Chrome for best experience.');
+    return;
+  }
+  
+  if (APP.isRecording) {
+    recognition.stop();
+    APP.isRecording = false;
+    document.getElementById('voiceBtn').className = 'mobile-btn';
+    return;
+  }
+  
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  recognition.lang = 'en-US';
+  
+  recognition.onstart = () => {
+    APP.isRecording = true;
+    document.getElementById('voiceBtn').className = 'mobile-btn recording';
+    addMessage('assistant', '🎤 Listening... Your words will appear in input.');
+  };
+  
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    document.getElementById('userInput').value = transcript;
+    autoResizeMobile(document.getElementById('userInput'));
+  };
+  
+  recognition.onend = () => {
+    APP.isRecording = false;
+    document.getElementById('voiceBtn').className = 'mobile-btn';
+    addMessage('assistant', '✅ Voice input finished.');
+  };
+  
+  recognition.onerror = (event) => {
+    console.error('Voice error:', event.error);
+    APP.isRecording = false;
+    document.getElementById('voiceBtn').className = 'mobile-btn';
+    addMessage('assistant', '❌ Voice error: ' + event.error);
+  };
+  
+  recognition.start();
+}
+
+async function sendMessage() {
+  const input = document.getElementById('userInput');
+  const message = input.value.trim();
+  
+  if (!message) return;
+  
+  addMessage('user', message);
+  input.value = '';
+  autoResizeMobile(input);
+  
+  // Add typing indicator
+  const typingDiv = document.createElement('div');
+  typingDiv.className = 'mobile-message assistant';
+  typingDiv.innerHTML = '<div class="mobile-message-content assistant">⏳ AI is thinking...</div>';
+  document.getElementById('messages').appendChild(typingDiv);
+  
+  setTimeout(() => {
+    if (typingDiv && typingDiv.parentElement) {
+      typingDiv.remove();
+    }
+    
+    const responses = [
+      `AI response to: "${message}" - This is a simulated response showing mobile UI.`,
+      `Processed: "${message.substring(0, 30)}..." - Clean message bubbles with proper spacing.`,
+      `Your input received: "${message}" - Mobile-friendly chat interface working correctly.`
+    ];
+    
+    const responseIndex = Math.floor(Math.random() * responses.length);
+    addMessage('assistant', responses[responseIndex]);
+  }, 1500);
+}
+
+function switchMobileMode(mode) {
+  document.querySelectorAll('.android-nav-item').forEach(item => {
+    item.classList.remove('active');
+  });
+  
+  document.querySelector(`.android-nav-item[data-mode="${mode}"]`).classList.add('active');
+  APP.currentMode = mode;
+  
+  // Auto-scroll to top
+  setTimeout(() => {
+    document.getElementById('chatContainer').scrollTop = 0;
+  }, 50);
+}
+
+// Add global error handling
+window.addEventListener('error', (event) => {
+  console.error('Global error:', event.error);
+  if (!document.getElementById('errorContainer').innerHTML.includes('error')) {
+    handleModelError('Browser error occurred', { message: event.message });
+  }
+});
+
+// Initialize
+loadTransformers();
+
+// Export for debugging
+window.LocalAI = { APP, MODES, addMessage, sendMessage, switchMobileMode };
+</script>
+
+</body>
+</html>
