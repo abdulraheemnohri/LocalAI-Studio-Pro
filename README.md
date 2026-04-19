@@ -1,7 +1,11 @@
 # 🧠 LocalAI Studio Pro
 
 > **Private AI Workspace — Runs Fully in Browser (Offline-First)**
-> 
+
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/abdulraheemnohri/LocalAI-Studio-Pro) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Stars](https://img.shields.io/github/stars/abdulraheemnohri/LocalAI-Studio-Pro?style=social)](https://github.com/abdulraheemnohri/LocalAI-Studio-Pro/stargazers)
+
+---
+
 ## 🎯 Overview
 
 LocalAI Studio Pro is a self-hosted, browser-based AI platform that runs **100% offline** in your web browser. It's your private AI workspace with chat, file intelligence, code assistance, and knowledge training capabilities—all without sending any data to external servers.
@@ -37,6 +41,7 @@ python -m http.server 8000
 # Then open: http://localhost:8000
 ```
 
+---
 
 ## 🧩 AI Modes Explained
 
@@ -58,11 +63,6 @@ Expert code assistant with multi-language support.
 - Debug and optimize code
 - Multi-language support (JavaScript, Python, HTML, CSS, etc.)
 
-**Supported Languages:**
-```
-JavaScript (JS), Python (PY), HTML, CSS, JSON, Markdown (MD)
-```
-
 ### 3. 📄 PDF Intelligence Mode
 Upload and analyze PDF documents.
 
@@ -71,9 +71,6 @@ Upload and analyze PDF documents.
 - Document summarization
 - Query PDF content
 - Chunk-based context retrieval
-
-**Supported:**
-- PDF files (.pdf)
 
 ### 4. 🖼️ Image AI Mode
 Upload images for analysis and caption generation.
@@ -84,9 +81,6 @@ Upload images for analysis and caption generation.
 - Scene description
 - Visual analysis
 
-**Supported:**
-- JPG, JPEG, PNG (.jpg, .jpeg, .png)
-
 ### 5. 📚 Train AI Mode
 Build your custom knowledge base.
 
@@ -95,13 +89,6 @@ Build your custom knowledge base.
 - Chunk text for efficient retrieval
 - Context-aware responses
 - Persistent knowledge storage
-
-**Supported File Types:**
-```
-- Text: .txt
-- PDF: .pdf
-- Code: .js, .py, .html, .css, .json, .md
-```
 
 ---
 
@@ -139,18 +126,68 @@ Build your custom knowledge base.
 | **Text Generation (Basic)** | `Xenova/gpt2` | 124M | Basic text completion |
 | **Image Captioning** | `Xenova/vit-gpt2-image-captioning` | 184M | Describe images in detail |
 
-### Storage
-- **IndexedDB** - Persistent browser storage
-- **localStorage** - Fallback for small data
-- **Zero external storage** - All data stays in your browser
+---
 
-### Privacy Model
-```
-✅ 100% Offline Processing
-✅ No API Calls
-✅ No Data Transmission
-✅ No External Tracking
-✅ No User Accounts Needed
-```
+## 🎨 UI Components
+
+### Main Layout
+- **Sidebar**: Mode switching (Chat, Code, PDF, Image, Train)
+- **Topbar**: Mode title and actions (Clear, Export, Settings)
+- **Chat Area**: Message display with Markdown formatting
+- **Input Area**: File upload, text input, voice input, and send button
+- **Panels**: Train mode and Settings panels
 
 ---
+
+## 🖱️ Usage Guide
+
+### Basic Chat
+1. Open the app in your browser
+2. Type your question in the input field
+3. Press Enter or click Send
+4. AI responds with context-aware answers
+
+### Uploading Files
+1. Click the file upload button
+2. Select one or more files
+3. Wait for processing
+4. AI can now reference the file content
+
+---
+
+## 🔧 Settings Panel
+
+Access via the settings icon in the topbar.
+
+### Available Settings
+- **Model Selection**: Choose AI text generation model
+- **Temperature Control**: Adjust response randomness (0.1 to 1.0)
+- **Max Tokens**: Control response length
+- **RAG Context Chunks**: Number of knowledge base chunks to include
+- **Data Management**: Clear all data
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these guidelines:
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+# 🎉 LocalAI Studio Pro is Complete!
+
+Your offline AI workspace is ready to use!
+
+🔗 [**Go to GitHub Repository**](https://github.com/abdulraheemnohri/LocalAI-Studio-Pro)
